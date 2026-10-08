@@ -1,29 +1,17 @@
-// Import all packages
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
-
-// Load .env file contents into process.env by default
-require('dotenv').config()
-
-const routes = require('./routes/allRoutes')
 require('./config/db')
+const router = require('./routes/allRoutes')
 
-// Create server
-const server = express()
+const bookStoreServer = express()
 
-// Enable CORS
-server.use(cors())
+bookStoreServer.use(cors())
+bookStoreServer.use(express.json())
+bookStoreServer.use(router)
 
-// Parse JSON request bodies
-server.use(express.json())
+const PORT = 3000
 
-// Use routes
-server.use(routes)
-
-// Port
-const PORT = process.env.PORT
-
-// Start server
-server.listen(PORT, () => {
-  console.log('Server Started......')
+bookStoreServer.listen(PORT, () => {
+  console.log(`Server running at port ${PORT}`)
 })
